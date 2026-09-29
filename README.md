@@ -2,6 +2,17 @@
 
 Sitio estático personal (sin dependencias ni compilación) con la identidad gráfica de la Universidad del Valle de México para llevar materias, apuntes y actividades. La primera materia cargada es **Aplicaciones en Psicoterapia** y su módulo principal es la **retroalimentación de simulaciones a compañeros y al equipo**.
 
+## Previsualización en línea
+
+- **Página publicada (privada, en claude.ai):** https://claude.ai/artifact/Eob98f1s4btVRd4suvxn9y
+- Se genera desde la carpeta `preview/` (copia plana del sitio). Para regenerarla tras cambiar el código fuente:
+
+```bash
+node tools/build-preview.js
+```
+
+- En la vista publicada no hay impresión ni descarga de archivos (limitación del visor); usa **Ver hoja oficial** y **Copiar texto**. Para imprimir o exportar JSON abre el sitio en local o en GitHub Pages.
+
 ## Cómo usarlo
 
 - **Local:** abre `index.html` en el navegador (funciona con doble clic, sin servidor).
@@ -22,6 +33,8 @@ materias/aplicaciones-psicoterapia/
   apuntes.html                          Apuntes por enfoque con buscador y referencias
 kit/index.html                          Kit gráfico: colores, tipografía, logos, componentes, iconos
 plantillas/modulo-plantilla.html        Esqueleto para un módulo nuevo
+preview/                                Copia plana generada para la página de previsualización
+tools/build-preview.js                  Genera preview/ a partir del código fuente
 docs/identidad-uvm.md                   Investigación de la identidad UVM y origen de cada token
 ```
 

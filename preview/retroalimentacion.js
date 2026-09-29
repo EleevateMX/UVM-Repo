@@ -6,8 +6,8 @@
   const KEY = 'uvm.retro.' + M.clave;
   const MAX_EV = 12;
 
-  UVM.renderTopbar({ root: '../../', current: 'retro' });
-  UVM.renderFooter('../../');
+  UVM.renderTopbar({ root: '', current: 'retro' });
+  UVM.renderFooter('');
   document.getElementById('hBadgeMateria').textContent = M.nombre;
 
   /* ---------- Estado ---------- */
@@ -245,7 +245,7 @@
     const e = enfoqueActual(); const fl = (k, v) => `<p class="field-line"><b>${k}:</b> ${esc(v || '')}</p>`;
     const block = (o, crits) => `${fl('Calificación final (promedio sugerido entre 0-5 puntos)', finalScore(o) == null ? '' : finalScore(o).toFixed(1))}<p class="field-line"><small>${crits.filter(c => typeof o.puntajes[c.id] === 'number').map(c => esc(c.nombre) + ': ' + o.puntajes[c.id]).join(' · ')}</small></p><p class="field-line"><b>Fortalezas observadas:</b></p><div class="text">${esc(o.fortalezas)}</div><p class="field-line"><b>Áreas de mejora:</b></p><div class="text">${esc(o.mejora)}</div><p class="field-line"><b>Recomendaciones finales:</b></p><div class="text">${esc(o.recomendaciones)}</div>`;
     const t = S.equipoEval; const hasTeam = t.nombre || finalScore(t) != null || t.fortalezas || t.mejora || t.recomendaciones;
-    document.getElementById('printSheet').innerHTML = `<img src="../../assets/img/uvm-logo-completo.jpg" alt="UVM" style="height:60px;width:auto;margin-bottom:12pt">
+    document.getElementById('printSheet').innerHTML = `<img src="assets/img/uvm-logo-completo.jpg" alt="UVM" style="height:60px;width:auto;margin-bottom:12pt">
       <h1>${esc(M.nombre)}</h1>${fl('Asignatura', M.nombre)}${fl('Actividad', M.actividadPrincipal.nombre)}${fl('Duración', M.actividadPrincipal.duracion)}
       <p class="field-line"><b>Docente:</b> ${esc(S.docente)} &nbsp;&nbsp;&nbsp; <b>Fecha:</b> ${esc(fmtDate(S.fecha))}</p>${fl('Nombre del evaluador', S.evaluador)}${e || S.equipo ? fl('Enfoque / equipo', (e ? e.nombre : 'Otro') + (S.equipo ? ' · ' + S.equipo : '')) : ''}
       ${S.evaluados.map((ev, i) => `<div class="ev"><p class="field-line"><b>${i + 1}.- Nombre del evaluado:</b> ${esc(ev.nombre)}${ev.rol ? ' <small>(' + esc(ev.rol) + ')</small>' : ''}</p>${block(ev, M.criteriosIndividual)}</div>`).join('')}

@@ -1,8 +1,3 @@
-<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tablón de estudios UVM</title>
 <meta name="description" content="Tablón personal de estudios con identidad UVM: materias, módulos, actividades y progreso.">
 <link rel="icon" href="assets/img/uvm-escudo.png">
@@ -22,8 +17,6 @@
   .stat b { display: block; font: 800 2rem var(--font-display); color: var(--primary); }
   .stat small { color: var(--text-2); }
 </style>
-</head>
-<body>
 <header class="topbar"></header>
 <main class="container">
   <section class="hero">
@@ -34,8 +27,8 @@
       <div class="hero-line"></div>
       <p>Un solo lugar para cada materia: apuntes, actividades, evaluaciones a compañeros y referencias. Los módulos se agregan conforme avanza el curso; los datos se guardan en tu navegador.</p>
       <div class="cluster" style="margin-top:14px">
-        <a class="btn primary" href="materias/aplicaciones-psicoterapia/retroalimentacion.html">Evaluar a un compañero</a>
-        <a class="btn" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#fff" href="materias/aplicaciones-psicoterapia/apuntes.html">Repasar apuntes</a>
+        <a class="btn primary" href="retroalimentacion.html">Evaluar a un compañero</a>
+        <a class="btn" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#fff" href="apuntes.html">Repasar apuntes</a>
       </div>
     </div>
   </section>
@@ -43,7 +36,7 @@
   <section class="section">
     <div class="section-head"><div><h2>Materias</h2><p>Cada materia tiene su propia página con módulos y avance.</p></div></div>
     <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))">
-      <a class="card card-link materia-card" href="materias/aplicaciones-psicoterapia/index.html">
+      <a class="card card-link materia-card" href="materia.html">
         <div class="eyebrow">Licenciatura en Psicología</div>
         <h3>Aplicaciones en Psicoterapia</h3>
         <p class="muted" style="margin:0">Psicoanálisis · Humanista-existencial · TCC · Conceptos cognitivos. Simulaciones y retroalimentación entre alumnos.</p>
@@ -86,23 +79,24 @@
   </div>
 </main>
 <footer class="footer"></footer>
+<script>window.UVM_PREVIEW = true;</script>
 <script src="assets/js/uvm-core.js"></script>
-<script src="materias/aplicaciones-psicoterapia/data.js"></script>
+<script src="data.js"></script>
 <script>
 (function(){
   const { icon, esc, store, uid } = UVM; const M = window.MATERIA;
-  UVM.renderTopbar({ root:'', current:'tablon' }); UVM.renderFooter('');
+  UVM.renderTopbar({ root: '', current:'tablon' }); UVM.renderFooter('');
   const h = new Date().getHours(); document.getElementById('saludo').textContent = (h < 12 ? 'Buenos días' : h < 19 ? 'Buenas tardes' : 'Buenas noches') + ' · tu tablón de estudios';
   const quick = [
-    { href:'materias/aplicaciones-psicoterapia/retroalimentacion.html', icon:'feedback', t:'Retroalimentación entre alumnos', d:'Rúbrica 0–5, frases sugeridas y formato oficial imprimible.', cls:'' },
-    { href:'materias/aplicaciones-psicoterapia/apuntes.html#psicoanalisis', icon:'brain', t:'Psicoanálisis', d:'Freud, síntoma, neurosis, asociación libre.', cls:'enf-psicoanalisis' },
-    { href:'materias/aplicaciones-psicoterapia/apuntes.html#humanista', icon:'heart', t:'Humanista-existencial', d:'Rogers, Gestalt, logoterapia, caso de María.', cls:'enf-humanista' },
-    { href:'materias/aplicaciones-psicoterapia/apuntes.html#tcc', icon:'target', t:'TCC y modelo ABC', d:'Beck, Ellis, reestructuración, debate.', cls:'enf-tcc' },
-    { href:'materias/aplicaciones-psicoterapia/apuntes.html#cognitiva', icon:'lightbulb', t:'Conceptos cognitivos', d:'Sesgos, distorsiones, anatomía de la creencia.', cls:'enf-cognitiva' },
-    { href:'kit/index.html', icon:'palette', t:'Kit gráfico UVM', d:'Colores, tipografía, componentes e iconos para armar módulos nuevos.', cls:'' }
+    { href:'retroalimentacion.html', icon:'feedback', t:'Retroalimentación entre alumnos', d:'Rúbrica 0–5, frases sugeridas y formato oficial imprimible.', cls:'' },
+    { href:'apuntes.html#psicoanalisis', icon:'brain', t:'Psicoanálisis', d:'Freud, síntoma, neurosis, asociación libre.', cls:'enf-psicoanalisis' },
+    { href:'apuntes.html#humanista', icon:'heart', t:'Humanista-existencial', d:'Rogers, Gestalt, logoterapia, caso de María.', cls:'enf-humanista' },
+    { href:'apuntes.html#tcc', icon:'target', t:'TCC y modelo ABC', d:'Beck, Ellis, reestructuración, debate.', cls:'enf-tcc' },
+    { href:'apuntes.html#cognitiva', icon:'lightbulb', t:'Conceptos cognitivos', d:'Sesgos, distorsiones, anatomía de la creencia.', cls:'enf-cognitiva' },
+    { href:'kit.html', icon:'palette', t:'Kit gráfico UVM', d:'Colores, tipografía, componentes e iconos para armar módulos nuevos.', cls:'' }
   ];
   document.getElementById('quick').innerHTML = quick.map(m => `<a class="card card-link ${m.cls}" href="${m.href}"><div class="card-icon">${icon(m.icon)}</div><h3>${esc(m.t)}</h3><p class="muted" style="margin:0">${esc(m.d)}</p></a>`).join('');
-  document.getElementById('enfoques').innerHTML = M.enfoques.map(e => `<a class="badge ${e.clase}" href="materias/aplicaciones-psicoterapia/apuntes.html#${e.id}">${esc(e.corto)}</a>`).join('');
+  document.getElementById('enfoques').innerHTML = M.enfoques.map(e => `<a class="badge ${e.clase}" href="apuntes.html#${e.id}">${esc(e.corto)}</a>`).join('');
   // Resumen
   const retro = store.get('uvm.retro.' + M.clave, { sesiones: [] });
   const nEv = retro.sesiones.reduce((a, s) => a + (s.evaluados || []).filter(e => e.nombre).length, 0);
@@ -119,5 +113,3 @@
   paint();
 })();
 </script>
-</body>
-</html>
