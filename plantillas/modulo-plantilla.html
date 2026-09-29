@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nuevo módulo · UVM</title>
+<meta name="description" content="Plantilla de módulo con la identidad UVM. Copia este archivo dentro de la carpeta de la materia y ajusta el contenido.">
+<link rel="icon" href="../assets/img/uvm-escudo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<!-- Al copiar a materias/<materia>/ cambia las rutas ../ por ../../ -->
+<link rel="stylesheet" href="../assets/css/uvm.css">
+</head>
+<body>
+<header class="topbar"></header>
+<main class="container">
+  <nav class="breadcrumb" aria-label="Ruta"><a href="../index.html">Tablón</a><span>Materia</span><span>Nuevo módulo</span></nav>
+  <section class="hero">
+    <div class="hero-card">
+      <div class="eyebrow">Módulo · Tipo de actividad</div>
+      <h1>Título del módulo</h1>
+      <div class="hero-line"></div>
+      <p>Describe en una o dos líneas qué se hace aquí y qué entrega produce. Esta plantilla ya trae la barra superior, el pie, la tipografía y los componentes del kit gráfico.</p>
+    </div>
+  </section>
+
+  <div class="grid-2 sidebar">
+    <div class="stack" style="--stack:18px">
+      <section class="card">
+        <h2>Bloque de trabajo</h2>
+        <div class="field-row" style="--cols:2">
+          <div><label class="field" for="a">Campo</label><input type="text" id="a" data-k="a" placeholder="Texto"></div>
+          <div><label class="field" for="b">Fecha</label><input type="date" id="b" data-k="b"></div>
+        </div>
+        <div style="margin-top:14px"><label class="field" for="c">Área de texto</label><textarea id="c" data-k="c" placeholder="Escribe aquí…"></textarea></div>
+      </section>
+      <section class="card">
+        <h2>Escala de ejemplo</h2>
+        <div class="criterio"><div><div class="c-title"><h4>Criterio</h4><span class="badge" id="badge">—</span></div><p class="c-desc">Descripción del criterio.</p></div><div class="scale" id="scale"></div></div>
+      </section>
+      <section class="card"><h2>Acciones</h2><div class="cluster"><button class="btn primary" id="save" type="button">Guardar</button><button class="btn" id="copy" type="button">Copiar</button></div></section>
+    </div>
+    <aside><div class="sticky panel"><header>Apoyo</header><div class="body"><p class="muted">Panel lateral para guías, referencias o frases. Puedes leer contenido de <code>window.MATERIA</code> si incluyes <code>data.js</code>.</p></div></div></aside>
+  </div>
+</main>
+<footer class="footer"></footer>
+<script src="../assets/js/uvm-core.js"></script>
+<script>
+(function(){
+  const { icon, store, toast, copyText } = UVM;
+  UVM.renderTopbar({ root:'../', current:'' }); UVM.renderFooter('../');
+  const KEY = 'uvm.modulo.plantilla'; const st = store.get(KEY, {});
+  document.querySelectorAll('[data-k]').forEach(el => { el.value = st[el.dataset.k] || ''; el.addEventListener('input', () => { st[el.dataset.k] = el.value; store.set(KEY, st); }); });
+  const labels = ['No se observó','Insuficiente','En desarrollo','Adecuado','Bueno','Excelente'];
+  const sc = document.getElementById('scale'); sc.innerHTML = labels.map((l, v) => `<button type="button" aria-pressed="${st.v === v}">${v}<small>${l}</small></button>`).join('');
+  sc.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; const v = [...sc.children].indexOf(b); st.v = v; store.set(KEY, st); [...sc.children].forEach((x, i) => x.setAttribute('aria-pressed', String(i === v))); document.getElementById('badge').textContent = v + ' · ' + labels[v]; });
+  document.getElementById('save').addEventListener('click', () => { store.set(KEY, st); toast('Guardado'); });
+  document.getElementById('copy').addEventListener('click', () => copyText(JSON.stringify(st, null, 2)).then(ok => toast(ok ? 'Copiado' : 'No se pudo copiar')));
+})();
+</script>
+</body>
+</html>

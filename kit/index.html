@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kit gráfico UVM · Tablón de estudios</title>
+<meta name="description" content="Identidad gráfica UVM aplicada al tablón: colores, tipografía, logotipos, componentes, iconos y guía para armar módulos nuevos.">
+<link rel="icon" href="../assets/img/uvm-escudo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="../assets/css/uvm.css">
+<style>
+  .swatches { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); }
+  .sw { border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); }
+  .sw .c { height: 64px; }
+  .sw .i { padding: 8px 10px; font-size: .8rem; }
+  .sw .i b { display: block; font-family: var(--font-display); }
+  .sw .i code { font-family: var(--font-mono); font-size: .75rem; color: var(--text-2); }
+  .icons { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+  .icons div { text-align: center; padding: 10px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: .75rem; color: var(--text-2); }
+  .icons svg, .icons svg.ico { width: 26px; height: 26px; margin: 0 auto 6px; color: var(--primary); }
+  pre { background: var(--uvm-gris-900); color: #F1F1F3; padding: 14px; border-radius: var(--radius-sm); overflow: auto; font-size: .82rem; line-height: 1.45; }
+  .logo-box { padding: 20px; border: 1px solid var(--border); border-radius: var(--radius-sm); display: grid; place-items: center; background: #fff; }
+  .logo-box.dark { background: var(--uvm-gris-900); }
+  .type-sample b { font-family: var(--font-display); }
+</style>
+</head>
+<body>
+<header class="topbar"></header>
+<main class="container">
+  <nav class="breadcrumb" aria-label="Ruta"><a href="../index.html">Tablón</a><span>Kit gráfico</span></nav>
+  <section class="hero">
+    <div class="hero-card">
+      <div class="eyebrow">Identidad · Sistema de diseño</div>
+      <h1>Kit gráfico UVM para el tablón</h1>
+      <div class="hero-line"></div>
+      <p>Todo lo que necesitas para armar un módulo nuevo con la misma apariencia: paleta derivada del logotipo institucional, tipografía, logotipos, componentes listos e iconos. La investigación completa está en <a href="../docs/identidad-uvm.md" style="color:#FFB3BA">docs/identidad-uvm.md</a>.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>1. Marca</h2>
+    <div class="grid-2">
+      <div class="card"><h3>Escudo</h3><p class="muted">Águila (norte del continente) y cóndor (sur) sobre el emblema de la Ciudad de México, con el lema <em>«Por siempre responsable de lo que se ha cultivado»</em>. Se usa en encabezados de documentos oficiales.</p><div class="logo-box"><img src="../assets/img/uvm-escudo.png" alt="Escudo UVM" style="height:120px"></div></div>
+      <div class="card"><h3>Wordmark UVM</h3><p class="muted">Letras «UVM» en gris degradado con la línea roja y la leyenda Laureate International Universities. En fondos oscuros se usa invertido.</p><div class="logo-box"><img src="../assets/img/uvm-laureate.png" alt="UVM Laureate" style="height:90px"></div><div class="logo-box dark" style="margin-top:8px"><img src="../assets/img/uvm-laureate.png" alt="UVM Laureate invertido" style="height:90px;filter:invert(1) brightness(1.6)"></div></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h3>Logotipo completo (encabezado de formatos)</h3><div class="logo-box"><img src="../assets/img/uvm-logo-completo.jpg" alt="Logotipo completo UVM" style="max-height:110px"></div><p class="help">Tal como aparece en el formato de retroalimentación entregado por la docente.</p></div>
+  </section>
+
+  <section class="section">
+    <h2>2. Color</h2>
+    <p class="muted">El rojo y los grises se muestrearon del escudo y del wordmark; los colores de enfoque provienen de las plantillas de cada presentación de clase.</p>
+    <h3 style="margin-top:14px">Institucionales</h3>
+    <div class="swatches" id="swBrand"></div>
+    <h3 style="margin-top:18px">Por enfoque (unidades de la materia)</h3>
+    <div class="swatches" id="swEnf"></div>
+    <h3 style="margin-top:18px">Semánticos</h3>
+    <div class="swatches" id="swSem"></div>
+  </section>
+
+  <section class="section">
+    <h2>3. Tipografía</h2>
+    <div class="grid-2">
+      <div class="card type-sample"><span class="eyebrow">Títulos · Montserrat 700/800</span><h1 style="margin:.2em 0">Aplicaciones en Psicoterapia</h1><h2>Retroalimentación de simulación</h2><h3>Fortalezas observadas</h3><p class="help">Geométrica, cercana al trazo del wordmark UVM. Alternativa del sistema: Segoe UI / system-ui.</p></div>
+      <div class="card type-sample"><span class="eyebrow">Cuerpo · Source Sans 3 400/600</span><p>El síntoma es un signo de malestar; lo que Freud valora es la posibilidad de pasar del síntoma a un relato. <b>Negrita para énfasis</b> y <em>cursiva para citas</em>.</p><p class="muted">Texto secundario en gris 500 para descripciones y ayudas.</p><span class="eyebrow">Etiqueta superior (eyebrow)</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>4. Componentes</h2>
+    <div class="grid-2">
+      <div class="card stack">
+        <h3>Botones y badges</h3>
+        <div class="cluster"><button class="btn primary">Primario</button><button class="btn">Secundario</button><button class="btn ghost">Fantasma</button><button class="btn sm">Pequeño</button><button class="btn danger">Peligro</button></div>
+        <div class="cluster"><span class="badge red">Rojo</span><span class="badge">Neutro</span><span class="badge ok">5 · Excelente</span><span class="badge info">3 · Adecuado</span><span class="badge warn">2 · En desarrollo</span><span class="badge bad">1 · Insuficiente</span></div>
+        <div class="cluster"><span class="badge psicoanalisis">Psicoanálisis</span><span class="badge humanista">Humanista</span><span class="badge tcc">TCC</span><span class="badge cognitiva">Cognitiva</span></div>
+        <div class="cluster"><span class="chip">Chip</span><span class="chip active">Chip activo</span></div>
+      </div>
+      <div class="card stack">
+        <h3>Escala 0–5 y puntaje</h3>
+        <div class="scale" id="demoScale"></div>
+        <div class="score-box"><div class="score-ring" style="--v:84"><b>4.2</b><small>de 5</small></div><div><label class="field">Calificación final <small>(promedio sugerido: 4.2)</small></label><div class="cluster"><input type="number" value="4.2" step="0.1" min="0" max="5" style="width:96px"><span class="badge ok">Bueno</span></div></div></div>
+        <div class="progress"><span style="width:60%"></span></div>
+      </div>
+      <div class="card stack">
+        <h3>Cita y callouts</h3>
+        <blockquote class="quote">“Estar en el campo de la neurosis es tener un saber hacer con la falta y el deseo.”<cite>Jacques Lacan</cite></blockquote>
+        <div class="callout info"><b>Info.</b> Datos guardados en este navegador.</div>
+        <div class="callout warn"><b>Atención.</b> Faltan criterios por calificar.</div>
+        <div class="callout ok"><b>Listo.</b> Formato copiado.</div>
+      </div>
+      <div class="card stack">
+        <h3>Línea de tiempo y tarjeta de módulo</h3>
+        <ul class="timeline"><li style="--dot:var(--enf-psicoanalisis)"><b>Unidad 1</b> · Psicoanálisis</li><li style="--dot:var(--enf-humanista)"><b>Unidad 2</b> · Humanista-existencial</li><li style="--dot:var(--enf-tcc)"><b>Unidad 3</b> · TCC</li></ul>
+        <a class="card card-link enf-tcc" href="#"><div class="card-icon" id="demoIcon"></div><h3>Título del módulo</h3><p class="muted" style="margin:0">Descripción breve de qué hace.</p><div class="card-meta"><span class="badge tcc">TCC</span></div></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>5. Iconos</h2>
+    <p class="muted">Trazo de 1.8 px, 24×24, color heredado. Se insertan con <code>UVM.icon('nombre')</code>.</p>
+    <div class="icons" id="icons"></div>
+  </section>
+
+  <section class="section">
+    <h2>6. Cómo armar un módulo nuevo</h2>
+    <div class="grid-2">
+      <div class="card"><ol style="margin:0;padding-left:20px;line-height:1.7">
+        <li>Copia <code>plantillas/modulo-plantilla.html</code> a la carpeta de la materia y renómbralo (p. ej. <code>caso-clinico.html</code>).</li>
+        <li>Ajusta el <em>hero</em> (eyebrow, título, descripción) y el <code>current</code> de la barra superior.</li>
+        <li>Usa las tarjetas, escalas y paneles del kit; guarda estado con <code>UVM.store</code>.</li>
+        <li>Si el módulo necesita contenido de la materia, léelo de <code>data.js</code> (<code>window.MATERIA</code>).</li>
+        <li>Enlázalo en <code>materias/&lt;materia&gt;/index.html</code> (lista <code>mods</code>) y, si es de uso frecuente, en el tablón.</li>
+      </ol></div>
+      <div class="card"><h3>Esqueleto mínimo</h3><pre>&lt;link rel="stylesheet" href="../../assets/css/uvm.css"&gt;
+&lt;header class="topbar"&gt;&lt;/header&gt;
+&lt;main class="container"&gt;
+  &lt;section class="hero"&gt;&lt;div class="hero-card"&gt;
+    &lt;div class="eyebrow"&gt;Módulo&lt;/div&gt;&lt;h1&gt;Título&lt;/h1&gt;
+    &lt;div class="hero-line"&gt;&lt;/div&gt;&lt;p&gt;Descripción&lt;/p&gt;
+  &lt;/div&gt;&lt;/section&gt;
+  &lt;section class="section grid-2 sidebar"&gt;…&lt;/section&gt;
+&lt;/main&gt;
+&lt;footer class="footer"&gt;&lt;/footer&gt;
+&lt;script src="../../assets/js/uvm-core.js"&gt;&lt;/script&gt;
+&lt;script src="data.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  UVM.renderTopbar({ root:'../../', current:'materia' });
+  UVM.renderFooter('../../');
+&lt;/script&gt;</pre></div>
+    </div>
+  </section>
+</main>
+<footer class="footer"></footer>
+<script src="../assets/js/uvm-core.js"></script>
+<script>
+(function(){
+  const { icon, esc, ICONS } = UVM;
+  UVM.renderTopbar({ root:'../', current:'kit' }); UVM.renderFooter('../');
+  const sw = (list) => list.map(c => `<div class="sw"><div class="c" style="background:${c.v}"></div><div class="i"><b>${esc(c.n)}</b><code>${c.v}</code>${c.d ? `<br><span class="muted">${esc(c.d)}</span>` : ''}</div></div>`).join('');
+  document.getElementById('swBrand').innerHTML = sw([
+    { n:'Rojo UVM', v:'#C8202E', d:'--uvm-rojo · acciones, acentos' }, { n:'Rojo oscuro', v:'#9E1522', d:'hover / énfasis' }, { n:'Rojo suave', v:'#FBE9EB', d:'fondos de badge' },
+    { n:'Gris 900', v:'#2B2B2E', d:'texto, wordmark' }, { n:'Gris 700', v:'#444446', d:'wordmark medio' }, { n:'Gris 500', v:'#6E6E73', d:'texto secundario' }, { n:'Gris 300', v:'#B9B9BE' }, { n:'Gris 150', v:'#E6E6E9', d:'bordes' }, { n:'Gris 050', v:'#F5F5F7', d:'fondo' }, { n:'Blanco', v:'#FFFFFF' }
+  ]);
+  document.getElementById('swEnf').innerHTML = sw([
+    { n:'Psicoanálisis', v:'#A53010', d:'terracota (plantilla Intro)' }, { n:'Humanista', v:'#734B67', d:'ciruela (plantilla Humanista)' }, { n:'TCC', v:'#156082', d:'azul petróleo (plantilla TCC)' }, { n:'Cognitiva', v:'#5F7A57', d:'salvia (infografías)' }
+  ]);
+  document.getElementById('swSem').innerHTML = sw([
+    { n:'OK', v:'#2F855A' }, { n:'Info', v:'#2B6CB0' }, { n:'Advertencia', v:'#B7791F' }, { n:'Error', v:'#C53030' }, { n:'Foco', v:'#1E6FD9' }
+  ]);
+  document.getElementById('demoScale').innerHTML = [0,1,2,3,4,5].map(v => `<button type="button" aria-pressed="${v===4}">${v}<small>${['No se observó','Insuficiente','En desarrollo','Adecuado','Bueno','Excelente'][v]}</small></button>`).join('');
+  document.getElementById('demoScale').addEventListener('click', e => { const b = e.target.closest('button'); if (b) [...b.parentElement.children].forEach(x => x.setAttribute('aria-pressed', String(x === b))); });
+  document.getElementById('demoIcon').innerHTML = icon('target');
+  document.getElementById('icons').innerHTML = Object.keys(ICONS).map(k => `<div>${icon(k)}${k}</div>`).join('');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aplicaciones en Psicoterapia · UVM</title>
+<meta name="description" content="Página de la materia: unidades, módulos, materiales y progreso de Aplicaciones en Psicoterapia.">
+<link rel="icon" href="../../assets/img/uvm-escudo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="../../assets/css/uvm.css">
+</head>
+<body>
+<header class="topbar"></header>
+<main class="container">
+  <nav class="breadcrumb" aria-label="Ruta"><a href="../../index.html">Tablón</a><span>Aplicaciones en Psicoterapia</span></nav>
+  <section class="hero">
+    <div class="hero-card">
+      <div class="eyebrow">Materia</div>
+      <h1 id="mNombre"></h1>
+      <div class="hero-line"></div>
+      <p id="mDesc"></p>
+      <dl class="kv" style="margin-top:14px;color:#fff"><dt style="color:rgba(255,255,255,.7)">Docente</dt><dd id="mDocente"></dd><dt style="color:rgba(255,255,255,.7)">Contacto</dt><dd id="mContacto"></dd></dl>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div><h2>Módulos</h2><p>Herramientas de la materia. Se irán agregando conforme avance el curso.</p></div></div>
+    <div class="grid" id="modulos"></div>
+  </section>
+
+  <div class="grid-2">
+    <section class="section" style="padding-top:0">
+      <div class="section-head"><div><h2>Unidades / enfoques</h2><p>Marca las que ya viste en clase para llevar tu avance.</p></div></div>
+      <div class="card"><div class="progress" style="margin-bottom:14px"><span id="bar" style="width:0"></span></div><ul class="timeline" id="unidades"></ul></div>
+    </section>
+    <section class="section" style="padding-top:0">
+      <div class="section-head"><div><h2>Materiales de clase</h2><p>Archivos entregados por la docente (resumidos en Apuntes).</p></div></div>
+      <div class="card"><ul class="list" id="materiales"></ul></div>
+      <div class="card" style="margin-top:16px"><h3>Actividad recurrente</h3><p class="muted" id="actDesc"></p><a class="btn primary" href="retroalimentacion.html">Abrir retroalimentación</a></div>
+    </section>
+  </div>
+</main>
+<footer class="footer"></footer>
+<script src="../../assets/js/uvm-core.js"></script>
+<script src="data.js"></script>
+<script>
+(function(){
+  const { icon, esc, store } = UVM; const M = window.MATERIA;
+  UVM.renderTopbar({ root:'../../', current:'materia' }); UVM.renderFooter('../../');
+  document.getElementById('mNombre').textContent = M.nombre; document.getElementById('mDesc').textContent = M.descripcion;
+  document.getElementById('mDocente').textContent = M.docente; document.getElementById('mContacto').innerHTML = '<a href="mailto:'+esc(M.contacto)+'" style="color:#FFB3BA">'+esc(M.contacto)+'</a>';
+  document.getElementById('actDesc').textContent = M.actividadPrincipal.nombre + ' · ' + M.actividadPrincipal.duracion + ' · ' + M.actividadPrincipal.escala + '.';
+  const mods = [
+    { href:'retroalimentacion.html', icon:'feedback', t:'Retroalimentación entre alumnos', d:'Califica a compañeros y al equipo con la rúbrica 0–5, redacta y genera el formato oficial.', badge:'Recurrente' },
+    { href:'apuntes.html', icon:'book', t:'Apuntes por enfoque', d:'Conceptos, técnicas, preguntas y citas de cada unidad, con buscador.', badge:'4 unidades' },
+    { href:'apuntes.html#referencias', icon:'ref', t:'Referencias', d:'Bibliografía APA de la materia lista para copiar.', badge: M.bibliografia.length + ' refs' },
+    { href:'../../plantillas/modulo-plantilla.html', icon:'plus', t:'Nuevo módulo', d:'Plantilla en blanco con la identidad UVM para la siguiente actividad del curso.', badge:'Plantilla' }
+  ];
+  document.getElementById('modulos').innerHTML = mods.map(m => `<a class="card card-link" href="${m.href}"><div class="card-icon">${icon(m.icon)}</div><h3>${esc(m.t)}</h3><p class="muted" style="margin:0">${esc(m.d)}</p><div class="card-meta"><span class="badge red">${esc(m.badge)}</span></div></a>`).join('');
+  const KEY = 'uvm.progreso.' + M.clave; let done = store.get(KEY, {});
+  function paint(){ const n = M.enfoques.filter(e => done[e.id]).length; document.getElementById('bar').style.width = (n / M.enfoques.length * 100) + '%'; }
+  document.getElementById('unidades').innerHTML = M.enfoques.map(e => `<li style="--dot:var(--enf-${e.clase})"><label class="check"><input type="checkbox" data-id="${e.id}"${done[e.id] ? ' checked' : ''}><span><b>${esc(e.nombre)}</b><br><small class="muted">${esc(e.autores)}</small></span></label><div class="cluster" style="padding-left:30px"><a class="btn sm" href="apuntes.html#${e.id}">Apuntes</a><span class="badge ${e.clase}">${esc(e.corto)}</span></div></li>`).join('');
+  document.getElementById('unidades').addEventListener('change', e => { if (e.target.dataset.id) { done[e.target.dataset.id] = e.target.checked; store.set(KEY, done); paint(); } });
+  paint();
+  document.getElementById('materiales').innerHTML = M.materiales.map(m => `<li>${icon('layers')}<span>${esc(m.t)} <span class="badge ${m.enf}">${esc(m.enf)}</span></span></li>`).join('');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apuntes · Aplicaciones en Psicoterapia · UVM</title>
+<meta name="description" content="Apuntes por enfoque: psicoanalítico, humanista-existencial, TCC y conceptos cognitivos, con técnicas, preguntas, citas y bibliografía.">
+<link rel="icon" href="../../assets/img/uvm-escudo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="../../assets/css/uvm.css">
+<style>
+  .concept { padding: 12px 14px; border-radius: var(--radius-sm); background: var(--surface-2); border: 1px solid var(--border); }
+  .concept b { display: block; margin-bottom: 2px; font-family: var(--font-display); font-size: .95rem; }
+  .concept p { margin: 0; font-size: .93rem; }
+  .enf-head { border-radius: var(--radius); padding: 22px; color: #fff; }
+  .enf-head p { color: rgba(255,255,255,.88); max-width: 70ch; margin: 0; }
+  .enf-head.psicoanalisis { background: linear-gradient(135deg, var(--enf-psicoanalisis), #6E1F09); }
+  .enf-head.humanista { background: linear-gradient(135deg, var(--enf-humanista), #4A2E42); }
+  .enf-head.tcc { background: linear-gradient(135deg, var(--enf-tcc), #0B3A50); }
+  .enf-head.cognitiva { background: linear-gradient(135deg, var(--enf-cognitiva), #3A4E35); }
+  .q-grid { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); }
+  .q { padding: 10px 12px; border-radius: 10px; border: 1px dashed var(--border); font-size: .93rem; background: var(--surface); }
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; }
+  .search { max-width: 420px; }
+  mark { background: #FFE58A; color: #000; border-radius: 3px; padding: 0 2px; }
+</style>
+</head>
+<body>
+<header class="topbar"></header>
+<main class="container">
+  <nav class="breadcrumb" aria-label="Ruta"><a href="../../index.html">Tablón</a><span><a href="index.html">Aplicaciones en Psicoterapia</a></span><span>Apuntes</span></nav>
+  <section class="hero">
+    <div class="hero-card">
+      <div class="eyebrow">Apuntes · resumen de clase</div>
+      <h1>Apuntes por enfoque</h1>
+      <div class="hero-line"></div>
+      <p>Síntesis de las presentaciones y materiales de la materia: conceptos, técnicas, preguntas para la sesión, citas y bibliografía. Usa el buscador para encontrar un concepto rápido antes de una simulación o un examen.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:10px">
+    <div class="cluster" style="justify-content:space-between">
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <input type="search" id="q" class="search" placeholder="Buscar concepto, autor o técnica…" aria-label="Buscar en los apuntes">
+    </div>
+    <div id="panels" style="margin-top:18px"></div>
+  </section>
+</main>
+<footer class="footer"></footer>
+<script src="../../assets/js/uvm-core.js"></script>
+<script src="data.js"></script>
+<script>
+(function(){
+  const { icon, esc } = UVM; const M = window.MATERIA;
+  UVM.renderTopbar({ root:'../../', current:'apuntes' }); UVM.renderFooter('../../');
+  const tabs = document.getElementById('tabs'), panels = document.getElementById('panels');
+  const all = M.enfoques.map(e => ({ id:e.id, label:e.corto })).concat([{ id:'referencias', label:'Referencias' }]);
+  tabs.innerHTML = all.map(t => `<button role="tab" data-id="${t.id}" aria-selected="false">${esc(t.label)}</button>`).join('');
+
+  function enfoquePanel(e){
+    return `<article class="stack" style="--stack:18px" id="p-${e.id}">
+      <div class="enf-head ${e.clase}"><div class="eyebrow" style="color:rgba(255,255,255,.8)">Unidad</div><h2 style="color:#fff">${esc(e.nombre)}</h2><p>${esc(e.resumen)}</p><p style="margin-top:10px;font-size:.9rem"><b>Autores:</b> ${esc(e.autores)}</p></div>
+      <section><h3>${icon('brain')} Conceptos clave</h3><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))">${e.conceptos.map(c => `<div class="concept" data-s><b>${esc(c.t)}</b><p>${esc(c.d)}</p></div>`).join('')}</div></section>
+      <section><h3>${icon('target')} Técnicas de aplicación</h3><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))">${e.tecnicas.map(c => `<div class="concept" data-s><b>${esc(c.t)}</b><p>${esc(c.d)}</p></div>`).join('')}</div></section>
+      ${e.caso ? `<section><h3>${icon('couch')} Caso trabajado en clase</h3><div class="callout" data-s><b>${esc(e.caso.t)}.</b> ${esc(e.caso.d)}</div></section>` : ''}
+      <section><h3>${icon('feedback')} Preguntas para la sesión</h3><div class="q-grid">${e.preguntas.map(q => `<div class="q" data-s>${esc(q)}</div>`).join('')}</div></section>
+      <section><h3>${icon('check')} Qué observar en una simulación</h3><ul class="list">${e.queObservar.map(q => `<li data-s>${icon('check')}<span>${esc(q)}</span></li>`).join('')}</ul></section>
+      ${e.citas.length ? `<section><h3>${icon('quote')} Citas</h3>${e.citas.map(c => `<blockquote class="quote" data-s>“${esc(c.q)}”<cite>${esc(c.a)}</cite></blockquote>`).join('')}</section>` : ''}
+      ${e.recursos.length ? `<section><h3>${icon('layers')} Recursos de la clase</h3><ul class="list">${e.recursos.map(r => `<li>${icon('arrow')}<a href="${esc(r.u)}" target="_blank" rel="noopener">${esc(r.t)}</a></li>`).join('')}</ul></section>` : ''}
+      <section><h3>${icon('ref')} Bibliografía de la unidad</h3><ul class="list">${M.bibliografia.filter(r => r.enf === e.id).map(r => `<li data-s>${icon('book')}<span>${esc(r.ref)}</span></li>`).join('') || '<li class="muted">Sin referencias específicas.</li>'}</ul></section>
+    </article>`;
+  }
+  function refsPanel(){
+    const groups = [['general','Generales'],...M.enfoques.map(e => [e.id, e.corto])];
+    return `<article id="p-referencias" class="stack" style="--stack:18px"><div class="card"><h2>Referencias de la materia</h2><p class="muted">Formato APA tal como aparece en los materiales de clase (con pequeñas correcciones tipográficas). Haz clic en el icono para copiar.</p>
+      ${groups.map(([id,label]) => { const rs = M.bibliografia.filter(r => r.enf === id); return rs.length ? `<h3 style="margin-top:16px">${esc(label)}</h3><ul class="list">${rs.map(r => `<li data-s><button type="button" class="btn sm ghost" data-copy="${esc(r.ref)}" aria-label="Copiar">${icon('copy')}</button><span>${esc(r.ref)}</span></li>`).join('')}</ul>` : ''; }).join('')}
+      <h3 style="margin-top:16px">Materiales entregados</h3><ul class="list">${M.materiales.map(m => `<li>${icon('layers')}<span>${esc(m.t)} <span class="badge ${m.enf}">${esc(m.enf)}</span></span></li>`).join('')}</ul></div></article>`;
+  }
+  panels.innerHTML = M.enfoques.map(enfoquePanel).join('') + refsPanel();
+  const ids = all.map(t => t.id);
+  function show(id){ if(!ids.includes(id)) id = ids[0]; tabs.querySelectorAll('[role=tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.id === id))); ids.forEach(x => document.getElementById('p-'+x).hidden = x !== id); history.replaceState(null,'','#'+id); }
+  tabs.addEventListener('click', e => { const b = e.target.closest('[role=tab]'); if (b) { show(b.dataset.id); window.scrollTo({top: tabs.getBoundingClientRect().top + window.scrollY - 80, behavior:'smooth'}); } });
+  panels.addEventListener('click', e => { const c = e.target.closest('[data-copy]'); if (c) UVM.copyText(c.dataset.copy).then(ok => UVM.toast(ok ? 'Referencia copiada' : 'No se pudo copiar')); });
+  show(location.hash.replace('#',''));
+  window.addEventListener('hashchange', () => show(location.hash.replace('#','')));
+
+  // Búsqueda: muestra todos los paneles y resalta coincidencias
+  const q = document.getElementById('q'); const raw = new Map();
+  document.querySelectorAll('[data-s]').forEach(el => raw.set(el, el.innerHTML));
+  q.addEventListener('input', UVM.debounce(() => {
+    const term = q.value.trim().toLowerCase();
+    if (!term) { raw.forEach((html, el) => { el.innerHTML = html; el.hidden = false; }); document.querySelectorAll('#panels section, #panels article').forEach(x => x.hidden = false); show(location.hash.replace('#','')); return; }
+    ids.forEach(x => document.getElementById('p-'+x).hidden = false);
+    let n = 0; const re = new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
+    raw.forEach((html, el) => { const text = el.textContent; const hit = text.toLowerCase().includes(term); el.hidden = !hit; if (hit) { n++; el.innerHTML = html.replace(/>([^<]+)</g, (m, t) => '>' + t.replace(re, '<mark>$1</mark>') + '<'); } else el.innerHTML = html; });
+    document.querySelectorAll('#panels section').forEach(sec => { const items = sec.querySelectorAll('[data-s]'); sec.hidden = !items.length || ![...items].some(i => !i.hidden); });
+    document.querySelectorAll('#panels > article').forEach(a => { a.hidden = ![...a.querySelectorAll('[data-s]')].some(i => !i.hidden); });
+    UVM.toast(n + ' coincidencia(s)');
+  }, 250));
+})();
+</script>
+</body>
+</html>

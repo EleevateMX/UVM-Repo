@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retroalimentación entre alumnos · Aplicaciones en Psicoterapia · UVM</title>
+<meta name="description" content="Módulo para calificar y redactar retroalimentación de simulaciones a compañeros y al equipo, con rúbrica 0–5, guía por enfoque y referencias.">
+<link rel="icon" href="../../assets/img/uvm-escudo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="../../assets/css/uvm.css">
+<style>
+  .ev-card { border-left: 5px solid var(--primary); }
+  .ev-card header { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+  .ev-card header .num { width: 34px; height: 34px; border-radius: 50%; background: var(--uvm-rojo-suave); color: var(--primary); display: grid; place-items: center; font: 800 .95rem var(--font-display); flex: none; }
+  .ev-card header input[type="text"] { flex: 1 1 200px; font-weight: 600; }
+  .ev-card header select { width: auto; flex: 0 0 auto; }
+  .ev-card .body[hidden] { display: none; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .chips .chip { font-size: .8rem; padding: 4px 10px; text-align: left; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .sessions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .sessions select { width: auto; min-width: 220px; flex: 1 1 220px; }
+  .team-card { border-left: 5px solid var(--uvm-gris-700); }
+  .obs { font-size: .92rem; }
+  .obs li { padding: 6px 0; }
+  .guide-q { font-size: .9rem; color: var(--text); padding: 6px 10px; border-radius: 8px; background: var(--surface-2); margin: 6px 0; cursor: pointer; border: 1px solid var(--border); }
+  .guide-q:hover { border-color: var(--primary); }
+  .ref-item { display: flex; gap: 8px; align-items: flex-start; padding: 8px 0; border-top: 1px solid var(--border); font-size: .88rem; }
+  .ref-item:first-child { border-top: 0; }
+  .ref-item button { flex: none; }
+  .save-state { font-size: .82rem; color: var(--text-2); }
+  .empty { text-align: center; padding: 30px; color: var(--text-2); border: 2px dashed var(--border); border-radius: var(--radius); }
+</style>
+</head>
+<body>
+<header class="topbar"></header>
+
+<main class="container">
+  <nav class="breadcrumb no-print" aria-label="Ruta"><a href="../../index.html">Tablón</a><span><a href="index.html">Aplicaciones en Psicoterapia</a></span><span>Retroalimentación entre alumnos</span></nav>
+
+  <section class="hero no-print">
+    <div class="hero-card">
+      <div class="eyebrow">Módulo · Actividad recurrente</div>
+      <h1>Retroalimentación de simulación a compañeros</h1>
+      <div class="hero-line"></div>
+      <p>Califica a cada compañero y al equipo con la rúbrica 0–5, redacta fortalezas, áreas de mejora y recomendaciones, y genera el formato oficial listo para imprimir o copiar. Todo se guarda automáticamente en este navegador.</p>
+      <div class="cluster" style="margin-top:10px">
+        <span class="badge red" id="hBadgeMateria"></span>
+        <span class="badge" style="background:rgba(255,255,255,.15);color:#fff">Duración: 30 minutos</span>
+        <span class="badge" style="background:rgba(255,255,255,.15);color:#fff">Escala 0–5 · promedio sugerido</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section no-print" style="padding-top:14px">
+    <div class="card">
+      <div class="sessions">
+        <label class="field" for="sessionSel" style="margin:0">Sesión</label>
+        <select id="sessionSel" aria-label="Sesión de evaluación"></select>
+        <button class="btn sm" id="btnNew" type="button">Nueva</button>
+        <button class="btn sm" id="btnDup" type="button">Duplicar</button>
+        <button class="btn sm danger" id="btnDel" type="button">Eliminar</button>
+        <span class="save-state" id="saveState" aria-live="polite"></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="grid-2 sidebar">
+    <div class="stack no-print" id="form" style="--stack:18px">
+      <!-- Datos generales -->
+      <section class="card" aria-labelledby="hDatos">
+        <div class="section-head" style="margin-bottom:8px"><h2 id="hDatos" style="margin:0">Datos de la evaluación</h2></div>
+        <div class="field-row" style="--cols:2">
+          <div><label class="field" for="fTitulo">Nombre de la sesión <small>(para identificarla)</small></label><input type="text" id="fTitulo" data-k="titulo" placeholder="Ej. Simulación equipo 3 · TCC"></div>
+          <div><label class="field" for="fFecha">Fecha</label><input type="date" id="fFecha" data-k="fecha"></div>
+          <div><label class="field" for="fDocente">Docente</label><input type="text" id="fDocente" data-k="docente"></div>
+          <div><label class="field" for="fEvaluador">Nombre del evaluador</label><input type="text" id="fEvaluador" data-k="evaluador" placeholder="Tu nombre"></div>
+          <div><label class="field" for="fEnfoque">Enfoque de la simulación</label><select id="fEnfoque" data-k="enfoque"></select></div>
+          <div><label class="field" for="fEquipo">Equipo / caso simulado</label><input type="text" id="fEquipo" data-k="equipo" placeholder="Ej. Equipo 2 · Caso de duelo"></div>
+        </div>
+        <div style="margin-top:14px"><label class="field" for="fNotas">Notas de observación <small>(apuntes libres durante la simulación; no se imprimen)</small></label><textarea id="fNotas" data-k="notas" placeholder="Min 3: terapeuta abre con encuadre… Min 12: pregunta cerrada… Min 25: cierre apresurado…"></textarea></div>
+      </section>
+
+      <!-- Evaluados -->
+      <section aria-labelledby="hEvaluados">
+        <div class="section-head"><div><h2 id="hEvaluados" style="margin:0">Compañeros evaluados</h2><p>Hasta 12, como en el formato oficial. Califica cada criterio y el promedio se calcula solo.</p></div>
+          <button class="btn primary" id="btnAddEv" type="button"></button></div>
+        <div class="stack" id="evList" style="--stack:16px"></div>
+      </section>
+
+      <!-- Equipo -->
+      <section class="card team-card" aria-labelledby="hEquipo" id="teamSection"></section>
+
+      <!-- Acciones -->
+      <section class="card" aria-labelledby="hAcciones">
+        <h2 id="hAcciones">Entregar</h2>
+        <p class="muted" style="margin-top:-4px">El formato impreso reproduce la hoja oficial (encabezado, campos por evaluado y nota al pie). También puedes copiar el texto y pegarlo en Word o en la plataforma.</p>
+        <div class="actions">
+          <button class="btn primary" id="btnPrint" type="button"></button>
+          <button class="btn" id="btnCopy" type="button"></button>
+          <button class="btn" id="btnExport" type="button"></button>
+          <label class="btn" for="fileImport" style="cursor:pointer"><span id="lblImport"></span><input type="file" id="fileImport" accept="application/json" class="sr-only"></label>
+        </div>
+      </section>
+    </div>
+
+    <!-- Panel lateral -->
+    <aside class="no-print">
+      <div class="sticky stack" style="--stack:14px">
+        <div class="panel">
+          <div class="tabs" role="tablist" aria-label="Apoyo" id="sideTabs">
+            <button role="tab" aria-selected="true" data-tab="guia">Guía</button>
+            <button role="tab" aria-selected="false" data-tab="frases">Frases</button>
+            <button role="tab" aria-selected="false" data-tab="escala">Escala</button>
+            <button role="tab" aria-selected="false" data-tab="refs">Referencias</button>
+          </div>
+          <div class="body tabpanel" id="tab-guia" role="tabpanel"></div>
+          <div class="body tabpanel" id="tab-frases" role="tabpanel" hidden></div>
+          <div class="body tabpanel" id="tab-escala" role="tabpanel" hidden></div>
+          <div class="body tabpanel" id="tab-refs" role="tabpanel" hidden></div>
+        </div>
+        <div class="callout info" style="font-size:.88rem"><b>Tip:</b> haz clic en una pregunta o frase del panel para copiarla o insertarla en el campo activo.</div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Hoja imprimible (formato oficial) -->
+  <div class="print-only print-sheet" id="printSheet"></div>
+</main>
+
+<footer class="footer"></footer>
+
+<script src="../../assets/js/uvm-core.js"></script>
+<script src="data.js"></script>
+<script src="retroalimentacion.js"></script>
+</body>
+</html>
